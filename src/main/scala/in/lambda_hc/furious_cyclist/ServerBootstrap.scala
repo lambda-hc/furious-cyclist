@@ -19,7 +19,6 @@ object ServerBootstrap {
   def main(args: Array[String]): Unit = {
 
     serverInterface.startServer
-
     println("Main function control Exited")
 
   }
