@@ -4,6 +4,7 @@ package in.lambda_hc.furious_cyclist
 import com.google.inject.Guice
 import com.typesafe.config.Config
 import in.lambda_hc.furious_cyclist.di.ServerDiModule
+import in.lambda_hc.furious_cyclist.models.User
 import in.lambda_hc.furious_cyclist.rest.ServerInterface
 import in.lambda_hc.furious_cyclist.utils.InitializationUtils
 
@@ -19,6 +20,7 @@ object ServerBootstrap {
   def main(args: Array[String]): Unit = {
 
     serverInterface.startServer
+
     println("Main function control Exited")
 
   }

@@ -24,7 +24,7 @@ class MysqlClient @Inject()(config: Config) {
 
 
   val autoIncValuesForTable: Map[String, Array[String]] = Map(
-    "Users" -> Array("UserId")
+    "users" -> Array("userId")
   )
 
   private val dbc = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + password
