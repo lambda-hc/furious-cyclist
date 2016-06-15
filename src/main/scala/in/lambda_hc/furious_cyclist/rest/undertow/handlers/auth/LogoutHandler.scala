@@ -1,4 +1,4 @@
-package in.lambda_hc.furious_cyclist.rest.handlers.auth
+package in.lambda_hc.furious_cyclist.rest.undertow.handlers.auth
 
 import java.util.Date
 

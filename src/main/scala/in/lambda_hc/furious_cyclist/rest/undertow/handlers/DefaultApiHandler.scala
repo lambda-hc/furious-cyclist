@@ -1,4 +1,4 @@
-package in.lambda_hc.furious_cyclist.rest.handlers
+package in.lambda_hc.furious_cyclist.rest.undertow.handlers
 
 import io.undertow.server.{HttpServerExchange, HttpHandler}
 
