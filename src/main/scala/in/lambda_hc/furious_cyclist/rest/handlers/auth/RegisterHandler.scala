@@ -2,7 +2,7 @@ package in.lambda_hc.furious_cyclist.rest.handlers.auth
 
 import com.google.inject.Inject
 import in.lambda_hc.furious_cyclist.rest.controllers.UserController
-import in.lambda_hc.furious_cyclist.rest.controllers.session.SessionHandler
+import in.lambda_hc.furious_cyclist.ServerBootstrap.sessionHandler
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json.JsonParser.ParsingException
@@ -12,8 +12,7 @@ import spray.json.{JsArray, JsObject, JsString, _}
   * Created by vishnu on 11/6/16.
   */
 class RegisterHandler @Inject()(
-                                 userController: UserController,
-                                 sessionHandler: SessionHandler
+                                 userController: UserController
                                ) extends HttpHandler {
 
   override def handleRequest(exchange: HttpServerExchange): Unit = {

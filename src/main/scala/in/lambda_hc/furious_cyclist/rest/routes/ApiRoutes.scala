@@ -10,9 +10,11 @@ import io.undertow.server.handlers.PathHandler
   */
 class ApiRoutes @Inject()(
                            defaultApiHandler: DefaultApiHandler,
-                           authenticationRoutes: AuthenticationRoutes
+                           authenticationRoutes: AuthenticationRoutes,
+                           entryRoutes: EntryRoutes
                          ) {
   val pathHandler: PathHandler = new PathHandler()
     .addExactPath("/", defaultApiHandler)
     .addPrefixPath("/auth", authenticationRoutes.pathHandler)
+    .addPrefixPath("/entry", entryRoutes.pathHandler)
 }

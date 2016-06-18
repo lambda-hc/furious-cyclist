@@ -2,7 +2,7 @@ package in.lambda_hc.furious_cyclist.rest.handlers.auth
 
 import com.google.inject.Inject
 import in.lambda_hc.furious_cyclist.rest.controllers.UserController
-import in.lambda_hc.furious_cyclist.rest.controllers.session.SessionHandler
+import in.lambda_hc.furious_cyclist.ServerBootstrap.sessionHandler
 import in.lambda_hc.furious_cyclist.utils.SecurityUtils
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
@@ -12,7 +12,7 @@ import spray.json.{JsArray, JsObject, JsString, _}
 /**
   * Created by vishnu on 12/6/16.
   */
-class LoginHandler @Inject()(userController: UserController, sessionHandler: SessionHandler) extends HttpHandler {
+class LoginHandler @Inject()(userController: UserController) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
     val cookie = exchange.getRequestCookies.get("ssid")
 

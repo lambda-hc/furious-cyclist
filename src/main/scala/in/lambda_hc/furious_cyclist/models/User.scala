@@ -2,8 +2,7 @@ package in.lambda_hc.furious_cyclist.models
 
 import java.sql.ResultSet
 
-import in.lambda_hc.furious_cyclist.ServerBootstrap
-import in.lambda_hc.furious_cyclist.connectors.MysqlClient
+import in.lambda_hc.furious_cyclist.ServerBootstrap.mysqlClient
 import in.lambda_hc.furious_cyclist.utils.SecurityUtils
 import org.slf4j.LoggerFactory
 import spray.json.{JsString, JsNumber, JsObject}
@@ -34,7 +33,7 @@ object User {
 
   val LOG = LoggerFactory.getLogger(this.getClass)
 
-  val mysqlClient: MysqlClient = ServerBootstrap.injector.getInstance(classOf[MysqlClient])
+
 
   private def getUser(rs: ResultSet): User = {
     new User(
