@@ -12,6 +12,8 @@ import spray.json.{JsArray, JsObject, JsString, _}
 /**
   * Created by vishnu on 12/6/16.
   */
+
+//TODO make userController Singleton Remove DI
 class LoginHandler @Inject()(userController: UserController) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
     val cookie = exchange.getRequestCookies.get("ssid")

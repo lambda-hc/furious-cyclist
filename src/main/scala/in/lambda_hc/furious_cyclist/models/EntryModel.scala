@@ -1,6 +1,6 @@
 package in.lambda_hc.furious_cyclist.models
 
-import java.sql.ResultSet
+import java.sql.{Date, ResultSet}
 import in.lambda_hc.furious_cyclist.ServerBootstrap.mysqlClient
 import spray.json.{JsNumber, JsString, JsObject}
 
@@ -8,19 +8,19 @@ import spray.json.{JsNumber, JsString, JsObject}
   * Created by vishnu on 18/6/16.
   */
 class EntryModel(
-                     val entryId: Long = 0,
-                     val userId: Long,
-                     val vehicleNumber: String,
-                     val description: String,
-                     val location: String,
-                     val city: String,
-                     val registeredDate: Long = 0
-                    ) {
+                  val entryId: Long = 0,
+                  val userId: Long,
+                  val vehicleNumber: String,
+                  val description: String,
+                  val location: String,
+                  val city: String,
+                  val registeredDate: Date = null
+                ) {
 
   def toJson: JsObject = JsObject(
     "entryId" -> JsNumber(entryId),
     "userId" -> JsNumber(userId),
-    "registeredDate" -> JsNumber(registeredDate),
+    "registeredDate" -> JsString(registeredDate.toString),
     "vehicleNumber" -> JsString(vehicleNumber),
     "description" -> JsString(description),
     "location" -> JsString(location),
@@ -46,7 +46,7 @@ object EntryModel {
     new EntryModel(
       entryId = rs.getLong("entryId"),
       userId = rs.getLong("userId"),
-      registeredDate = rs.getDate("registeredDate").getTime,
+      registeredDate = rs.getDate("registeredDate"),
       vehicleNumber = rs.getString("vehicleNumber"),
       description = rs.getString("description"),
       location = rs.getString("location"),

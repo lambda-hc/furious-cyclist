@@ -4,7 +4,10 @@ import in.lambda_hc.furious_cyclist.models.User
 import spray.json.JsObject
 
 /**
-  * Created by vishnu on 12/6/16.
+  * Created by vishnu on 12/6/16.\
+  *
+  * Interface for Handling Session. All session Handlers should follow this interface.
+  *
   */
 trait SessionHandler {
 

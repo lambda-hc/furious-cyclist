@@ -14,8 +14,12 @@ import net.codingwell.scalaguice.ScalaModule
   */
 class ServerDiModule(config: Config) extends AbstractModule with ScalaModule {
   override def configure(): Unit = {
+
     bind[Config].toInstance(config)
+
     bind[ServerInterface].to[UndertowApiServer].asInstanceOf[Singleton]
+
     bind[MysqlClient].asInstanceOf[Singleton]
+
   }
 }

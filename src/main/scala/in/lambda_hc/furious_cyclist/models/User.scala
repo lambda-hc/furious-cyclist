@@ -34,7 +34,6 @@ object User {
   val LOG = LoggerFactory.getLogger(this.getClass)
 
 
-
   private def getUser(rs: ResultSet): User = {
     new User(
       userId = rs.getLong("userId"),

@@ -12,6 +12,7 @@ import spray.json.{JsObject, JsString}
 /**
   * Created by vishnu on 12/6/16.
   */
+//TODO make userController Singleton Remove DI
 class LogoutHandler @Inject()(userController: UserController) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
 

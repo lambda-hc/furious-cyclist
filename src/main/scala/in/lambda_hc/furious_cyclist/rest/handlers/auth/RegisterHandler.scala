@@ -11,6 +11,7 @@ import spray.json.{JsArray, JsObject, JsString, _}
 /**
   * Created by vishnu on 11/6/16.
   */
+//TODO make userController Singleton Remove DI
 class RegisterHandler @Inject()(
                                  userController: UserController
                                ) extends HttpHandler {
