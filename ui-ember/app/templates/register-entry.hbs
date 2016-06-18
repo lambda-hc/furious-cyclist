@@ -1,0 +1,38 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">FuriousCyclists</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/home">Dashboard</a></li>
+        <li class="active"><a href="/registerEntry">Complain</a></li>
+        <li><a href="/viewDB">View DataBase</a></li>
+        <li><a href="/logout?rd=/">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <h3>Complaint Registeration</h3>
+  <form>
+    <div class="form-group">
+      <label for="vehicleNumber">Vehicle Number</label>
+      <input type="text" class="form-control" id="vehicleNumber" placeholder="Vehicle Number">
+    </div>
+    <div class="form-group">
+      <label for="location">Location</label>
+      <input type="text" class="form-control" id="location" placeholder="Location">
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="text" class="form-control" id="city" placeholder="City">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea type="text" class="form-control" id="description" placeholder="Description"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-default">Unleash your Fury</button>
+  </form>
+</div>
