@@ -6,6 +6,7 @@ import com.google.inject.Guice
 import com.typesafe.config.Config
 import in.lambda_hc.furious_cyclist.di.ServerDiModule
 import in.lambda_hc.furious_cyclist.rest.ServerInterface
+import in.lambda_hc.furious_cyclist.rest.controllers.session.SessionHandler
 import in.lambda_hc.furious_cyclist.utils.InitializationUtils
 
 object ServerBootstrap {
@@ -16,6 +17,8 @@ object ServerBootstrap {
   val injector = Guice.createInjector(new ServerDiModule(config))
 
   val actorSystem: ActorSystem = ActorSystem("Api-server")
+
+  val sessionHandler = injector.getInstance(classOf[SessionHandler])
 
   val serverInterface = injector.getInstance(classOf[ServerInterface])
 

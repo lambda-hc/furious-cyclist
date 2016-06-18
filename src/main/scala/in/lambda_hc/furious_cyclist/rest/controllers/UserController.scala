@@ -1,6 +1,6 @@
 package in.lambda_hc.furious_cyclist.rest.controllers
 
-import com.google.inject.Inject
+
 import in.lambda_hc.furious_cyclist.connectors.MysqlClient
 import in.lambda_hc.furious_cyclist.models.User
 import in.lambda_hc.furious_cyclist.utils.SecurityUtils
@@ -13,7 +13,7 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by vishnu on 10/6/16.
   */
-class UserController @Inject()(mysqlClient: MysqlClient) {
+object UserController {
   val LOG = LoggerFactory.getLogger(this.getClass)
 
   def registerUser(requestJson: JsObject): (User, Array[String]) = {
@@ -30,10 +30,10 @@ class UserController @Inject()(mysqlClient: MysqlClient) {
       val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
       val city = requestJson.getFields("city").head.asInstanceOf[JsString].value
 
-      val sanityCheck = mysqlClient.getResultSet("SELECT userName,email from users where username='" + userName + "' || email='" + email + "'")
+      val sanityCheck = MysqlClient.getResultSet("SELECT userName,email from users where username='" + userName + "' || email='" + email + "'")
       if (!sanityCheck.next()) {
         val passwordHash = SecurityUtils.hash(password)
-        val userId = mysqlClient.insert(
+        val userId = MysqlClient.insert(
           tableName = "users",
           elements = Map(
             "username" -> userName,
@@ -82,7 +82,7 @@ class UserController @Inject()(mysqlClient: MysqlClient) {
       else
         messages += "Requests Requires your email or userName"
 
-      if(user==null)
+      if (user == null)
         messages += "Invalid userName or password"
 
     } catch {

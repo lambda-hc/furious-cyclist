@@ -12,7 +12,6 @@ import spray.json.{JsArray, JsObject, JsString, _}
   * Created by vishnu on 11/6/16.
   */
 class RegisterHandler @Inject()(
-                                 userController: UserController,
                                  sessionHandler: SessionHandler
                                ) extends HttpHandler {
 
@@ -32,7 +31,7 @@ class RegisterHandler @Inject()(
 
           val requestJson = request.parseJson.asJsObject
 
-          val registrationTuple = userController.registerUser(requestJson)
+          val registrationTuple = UserController.registerUser(requestJson)
 
           if (registrationTuple._1 != null) {
             //TODO add logic for Successful Registration

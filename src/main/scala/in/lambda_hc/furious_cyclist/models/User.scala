@@ -34,8 +34,6 @@ object User {
 
   val LOG = LoggerFactory.getLogger(this.getClass)
 
-  val mysqlClient: MysqlClient = ServerBootstrap.injector.getInstance(classOf[MysqlClient])
-
   private def getUser(rs: ResultSet): User = {
     new User(
       userId = rs.getLong("userId"),
@@ -48,7 +46,7 @@ object User {
   }
 
   def getUser(id: Long): User = {
-    val rs = mysqlClient.getResultSet("select * from users where userId=" + id)
+    val rs = MysqlClient.getResultSet("select * from users where userId=" + id)
 
     if (rs.next())
       getUser(rs)
@@ -58,7 +56,7 @@ object User {
 
   def authenticateAndGetUser(emailOrUsername: String, password: String): User = {
 
-    val rs = mysqlClient.getResultSet("select * from users where ( email='" + emailOrUsername + "' || userName='" + emailOrUsername + "') && password_hash='" + SecurityUtils.hash(password) + "'")
+    val rs = MysqlClient.getResultSet("select * from users where ( email='" + emailOrUsername + "' || userName='" + emailOrUsername + "') && password_hash='" + SecurityUtils.hash(password) + "'")
 
     val result = if (rs.next())
       getUser(rs)
@@ -116,7 +114,7 @@ object User {
 
   def toDB(user: User) = {
     if (user.userId == 0)
-      mysqlClient.insert(
+      MysqlClient.insert(
         tableName = "users",
         elements = Map(
           "username" -> user.userName,
@@ -128,7 +126,7 @@ object User {
       )
 
     else
-      mysqlClient.update(
+      MysqlClient.update(
         tableName = "users",
         elements = Map(
           "username" -> user.userName,

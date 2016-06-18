@@ -7,12 +7,10 @@ import spray.json.{JsNumber, JsObject}
 /**
   * Created by vishnu on 12/6/16.
   */
-object InMemorySessionHandler {
+object InMemorySessionHandler extends SessionHandler {
   // String Token Key (userId, Expiration Time)
   val cache: scala.collection.mutable.HashMap[String, (Long, Long)] = scala.collection.mutable.HashMap[String, (Long, Long)]()
-}
 
-class InMemorySessionHandler extends SessionHandler {
   private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   override def getUserIdForSession(sessionToken: String): Long = {

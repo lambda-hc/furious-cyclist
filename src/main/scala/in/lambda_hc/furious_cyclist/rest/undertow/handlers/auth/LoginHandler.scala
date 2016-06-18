@@ -12,7 +12,7 @@ import spray.json.{JsArray, JsObject, JsString, _}
 /**
   * Created by vishnu on 12/6/16.
   */
-class LoginHandler @Inject()(userController: UserController, sessionHandler: SessionHandler) extends HttpHandler {
+class LoginHandler @Inject()(sessionHandler: SessionHandler) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
     val cookie = exchange.getRequestCookies.get("ssid")
 
@@ -30,7 +30,7 @@ class LoginHandler @Inject()(userController: UserController, sessionHandler: Ses
 
           val requestJson = request.parseJson.asJsObject
 
-          val (user, message) = userController.authenticateUser(requestJson)
+          val (user, message) = UserController.authenticateUser(requestJson)
 
           if (user != null) {
             //TODO add logic for Successful Registration
