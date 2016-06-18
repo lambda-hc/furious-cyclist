@@ -55,3 +55,12 @@ Response
 #### Logout
 
 url : /api/auth/logout
+
+
+#### Register Entry 
+
+url /api/entry/register
+
+```
+
+```
