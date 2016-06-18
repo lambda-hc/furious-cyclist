@@ -8,6 +8,7 @@ import io.undertow.server.handlers.PathHandler
 /**
   * Created by vishnu on 9/6/16.
   */
+//TODO make userController Singleton Remove DI
 class ServerRoutes @Inject()(
                               defaultApiHandler: DefaultApiHandler,
                               apiRoutes: ApiRoutes

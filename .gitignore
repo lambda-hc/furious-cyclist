@@ -1,3 +1,4 @@
+# Gitignore for Ide binaries maven, java, scala
 /binaries.zip
 /binaries
 /Test.sc

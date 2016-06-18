@@ -12,6 +12,9 @@ import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by vishnu on 10/6/16.
+  *
+  * UserController for Doing basic operation on top of User Data
+  *
   */
 class UserController @Inject()(mysqlClient: MysqlClient) {
   val LOG = LoggerFactory.getLogger(this.getClass)
@@ -82,7 +85,7 @@ class UserController @Inject()(mysqlClient: MysqlClient) {
       else
         messages += "Requests Requires your email or userName"
 
-      if(user==null)
+      if (user == null)
         messages += "Invalid userName or password"
 
     } catch {

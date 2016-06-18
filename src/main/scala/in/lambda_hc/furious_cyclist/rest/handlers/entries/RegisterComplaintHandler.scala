@@ -1,4 +1,4 @@
-package in.lambda_hc.furious_cyclist.rest.handlers.complaints
+package in.lambda_hc.furious_cyclist.rest.handlers.entries
 
 import in.lambda_hc.furious_cyclist.models.EntryModel
 import io.undertow.server.{HttpServerExchange, HttpHandler}
