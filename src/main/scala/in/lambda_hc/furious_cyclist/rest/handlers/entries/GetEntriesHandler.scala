@@ -1,7 +1,9 @@
 package in.lambda_hc.furious_cyclist.rest.handlers.entries
 
+import in.lambda_hc.furious_cyclist.models.EntryModel
 import io.undertow.server.{HttpServerExchange, HttpHandler}
 import in.lambda_hc.furious_cyclist.ServerBootstrap.mysqlClient
+import spray.json.{JsArray, JsString, JsObject}
 import collection.JavaConversions._
 
 /**
@@ -28,13 +30,25 @@ class GetEntriesHandler extends HttpHandler {
         if (v != null) "vehicle=" + v else null
       }, {
         val v = queryParams.getOrElse("city", null)
-        if (v != null) "city=" + v else null
+        if (v != null) "city='" + v + "'" else null
       }
     ).filter(_ != null).mkString(" AND ")
 
-    mysqlClient.getResultSet("select * from entries " + (if (whereQuery.nonEmpty) whereQuery else ""))
+    val rs = mysqlClient.getResultSet("select * from entries " + (if (whereQuery.nonEmpty) "where " + whereQuery else ""))
+
+    val buf = scala.collection.mutable.ListBuffer.empty[JsObject]
 
 
+    while (rs.next()) {
+      buf += EntryModel.getFromResultSet(rs).toJson
+    }
+
+    exchange.getResponseSender.send(
+      JsObject(
+        "status" -> JsString("ok"),
+        "entries" -> JsArray(buf.toVector)
+      ).prettyPrint
+    )
 
   }
 }
