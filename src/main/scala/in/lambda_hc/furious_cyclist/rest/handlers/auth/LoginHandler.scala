@@ -3,8 +3,9 @@ package in.lambda_hc.furious_cyclist.rest.handlers.auth
 import com.google.inject.Inject
 import in.lambda_hc.furious_cyclist.rest.controllers.UserController
 import in.lambda_hc.furious_cyclist.ServerBootstrap.sessionHandler
-import in.lambda_hc.furious_cyclist.utils.SecurityUtils
+import in.lambda_hc.furious_cyclist.utils.{UNDERTOW_HELPERS, SecurityUtils}
 import io.undertow.server.{HttpHandler, HttpServerExchange}
+import io.undertow.util.HttpString
 import org.apache.commons.io.IOUtils
 import spray.json.JsonParser.ParsingException
 import spray.json.{JsArray, JsObject, JsString, _}
@@ -16,6 +17,14 @@ import spray.json.{JsArray, JsObject, JsString, _}
 //TODO make userController Singleton Remove DI
 class LoginHandler @Inject()(userController: UserController) extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
+    if (!exchange.getResponseHeaders.contains("Access-Control-Allow-Origin")) {
+      exchange.getResponseHeaders.add(new HttpString("Access-Control-Allow-Origin"), "*");
+    }
+    exchange.getResponseHeaders
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_HEADERS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_HEADERS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_CREDENTIALS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_CREDENTIALS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_METHODS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_METHODS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_MAX_AGE._1, UNDERTOW_HELPERS.ACCESS_CONTROL_MAX_AGE._2)
     val cookie = exchange.getRequestCookies.get("ssid")
 
     val user = if (cookie != null)
@@ -43,7 +52,9 @@ class LoginHandler @Inject()(userController: UserController) extends HttpHandler
 
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("ok"),
-              "message" -> JsString("Login successful")
+              "message" -> JsString("Login successful"),
+              "id_token" -> JsString(token),
+              "user"->user.toJson
             ).prettyPrint)
           } else {
             //TODO add logic for Failed Registration
@@ -59,7 +70,7 @@ class LoginHandler @Inject()(userController: UserController) extends HttpHandler
         } catch {
           case e: ParsingException => {
             e.printStackTrace()
-            exchange.setStatusCode(400)
+            exchange.setStatusCode(200)
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("failed"),
               "message" -> JsString("Invalid Json Parsing Exception")
@@ -67,7 +78,7 @@ class LoginHandler @Inject()(userController: UserController) extends HttpHandler
           }
           case e: Exception => {
             e.printStackTrace()
-            exchange.setStatusCode(400)
+            exchange.setStatusCode(200)
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("failed"),
               "message" -> JsString("Login Failed")
@@ -78,7 +89,8 @@ class LoginHandler @Inject()(userController: UserController) extends HttpHandler
     } else {
       exchange.getResponseSender.send(JsObject(
         "status" -> JsString("ok"),
-        "message" -> JsString("User is already logged in")
+        "message" -> JsString("User is already logged in"),
+        "user"->user.toJson
       ).prettyPrint)
     }
   }
