@@ -1,6 +1,7 @@
 
 ## Api Specs
 
+### Server http://furiouscyclists.in
 
 #### Register User
 
@@ -61,6 +62,25 @@ url : /api/auth/logout
 
 url /api/entry/register
 
-```
+requestData
 
 ```
+{
+"vehicleNumber": "examoplke",
+"description": "examoplke",
+"location": "examoplke",
+"city": "examoplke"
+}
+```
+
+#### Get Entries
+
+Get Request url : /api/entry/get
+
+Query Parameters
+
+fromUser=userId
+startDate=Sql Date Format
+endDate=Sql Date Format
+vehicle=VechicleNumber
+city=City
