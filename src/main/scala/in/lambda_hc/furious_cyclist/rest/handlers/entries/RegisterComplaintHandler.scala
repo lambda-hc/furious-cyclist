@@ -1,6 +1,7 @@
 package in.lambda_hc.furious_cyclist.rest.handlers.entries
 
 import in.lambda_hc.furious_cyclist.models.EntryModel
+import in.lambda_hc.furious_cyclist.utils.UNDERTOW_HELPERS
 import io.undertow.server.{HttpServerExchange, HttpHandler}
 import in.lambda_hc.furious_cyclist.ServerBootstrap.sessionHandler
 import org.apache.commons.io.IOUtils
@@ -12,6 +13,11 @@ import spray.json._
   */
 class RegisterComplaintHandler extends HttpHandler {
   override def handleRequest(exchange: HttpServerExchange): Unit = {
+    exchange.getResponseHeaders
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_HEADERS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_HEADERS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_CREDENTIALS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_CREDENTIALS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_METHODS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_METHODS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_MAX_AGE._1, UNDERTOW_HELPERS.ACCESS_CONTROL_MAX_AGE._2)
     val cookie = exchange.getRequestCookies.get("ssid")
 
     val user = if (cookie != null)
