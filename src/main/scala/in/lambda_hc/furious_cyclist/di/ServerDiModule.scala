@@ -16,7 +16,6 @@ class ServerDiModule(config: Config) extends AbstractModule with ScalaModule {
     bind[Config].toInstance(config)
 
     bind[ServerInterface].to[SprayApiServer].asInstanceOf[Singleton]
-    //    bind[ServerInterface].to[UndertowApiServer].asInstanceOf[Singleton]
 
     bind[SessionHandler].toInstance(InMemorySessionHandler)
   }

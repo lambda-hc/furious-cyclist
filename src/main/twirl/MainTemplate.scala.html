@@ -1,0 +1,49 @@
+@import in.lambda_hc.furious_cyclist.models.User
+@(menu:String,user:User)(content: Html)
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@menu</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css"/>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home">Furious Cyclists</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+
+            <ul class="nav navbar-nav">
+
+                <li @if(menu.equals("Home")){class="active"}><a href="/home">Home</a></li>
+                <li @if(menu.equals("View Records")){class="active"}><a href="/viewRecords">View Records</a></li>
+                <li @if(menu.equals("Register Complaint")){class="active"}><a href="/RegisterComplaint">Register Complaint</a></li>
+                @if(user==null){
+                <li><a>Login</a></li>
+                } else {
+                <li><a>Logged in as @user.name</a></li>
+                <li><a>Logout</a></li>
+                }
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+<br><br>
+<div class="container">
+    @content
+</div>
+
+
+</body>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+</html>
