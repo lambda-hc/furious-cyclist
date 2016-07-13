@@ -1,5 +1,5 @@
 @import in.lambda_hc.furious_cyclist.models.User
-@(menu:String,user:User)(content: Html)
+@(menu:String,user:Option[User])(content: Html)
 <html>
 <head>
     <meta charset="utf-8">
@@ -26,12 +26,14 @@
                 <li @if(menu.equals("Home")){class="active"}><a href="/home">Home</a></li>
                 <li @if(menu.equals("View Records")){class="active"}><a href="/viewRecords">View Records</a></li>
                 <li @if(menu.equals("Register Complaint")){class="active"}><a href="/RegisterComplaint">Register Complaint</a></li>
-                @if(user==null){
-                <li><a>Login</a></li>
-                } else {
-                <li><a>Logged in as @user.name</a></li>
+                @user match {
+                case Some(u) => {
+                <li><a>Logged in as @u.name</a></li>
                 <li><a>Logout</a></li>
+                    }
+                case None => {<li><a>Login</a></li>}
                 }
+
             </ul>
         </div>
         <!--/.nav-collapse -->
