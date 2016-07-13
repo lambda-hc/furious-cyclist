@@ -2,31 +2,61 @@ package in.lambda_hc.furious_cyclist.rest.spray.handlers
 
 import in.lambda_hc.furious_cyclist.ServerBootstrap
 import in.lambda_hc.furious_cyclist.rest.controllers.UserController
-import spray.routing.HttpService
-import spray.json._
+import in.lambda_hc.furious_cyclist.rest.spray.utils.ServerUtils
+import spray.http.{HttpCookie, StatusCodes, FormData}
+import spray.httpx.PlayTwirlSupport._
 
 /**
   * Created by vishnu on 16/6/16.
   */
-trait AuthHandler extends HttpService {
+trait AuthHandler extends ServerUtils {
 
-  def login = cookie("ssid") { cookieObj => {
-    println("Reading Cookie" + cookieObj)
-    val user = ServerBootstrap.sessionHandler.getUserForSession(cookieObj.content)
-    if (user == null) {
-      createNewUser
-    } else {
-      complete(user.toJson.prettyPrint)
-    }
+  def logoutHandler = deAuthorizeUser {
+    TO_DASHBOARD_PAGE
   }
-  } ~ createNewUser
 
-  private def createNewUser = entity(as[String]) { body =>
-    val (user, message) = UserController.authenticateUser(body.parseJson.asJsObject)
-    if (user != null) {
-      complete(user.toJson.prettyPrint)
-    } else
-      complete(JsObject("status" -> JsString("failed"), "message" -> JsArray(message.map(JsString(_)).toVector)).prettyPrint)
+
+  def loginPageHandler = getUser {
+    case Some(user) => redirect("/home", StatusCodes.TemporaryRedirect)
+    case None => get {
+      complete {
+        html.Login.render(Array())
+      }
+    } ~ post {
+      entity(as[FormData]) {
+        form => {
+          val data = form.fields.toMap
+
+          data.get("username") match {
+            case Some(userName) => data.get("password") match {
+              case Some(password) => {
+                val (userObj, message) = UserController.authenticateUser(userName, password)
+                userObj match {
+                  case Some(user) => setCookie(
+                    HttpCookie(
+                      "ssid",
+                      content = ServerBootstrap.sessionHandler.createSessionTokenForUser(user.userId)
+                    )
+                  ) {
+                    TO_DASHBOARD_PAGE
+                  }
+                  case None => complete {
+                    html.Login.render(message)
+                  }
+                }
+              }
+              case None => complete {
+                html.Login.render(Array("Invalid Parameters"))
+              }
+            }
+            case None => complete {
+              html.Login.render(Array("Invalid Parameters"))
+            }
+          }
+
+        }
+      }
+    }
   }
 
 }

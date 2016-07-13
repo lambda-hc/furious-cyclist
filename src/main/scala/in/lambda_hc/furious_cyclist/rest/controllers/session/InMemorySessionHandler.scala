@@ -15,8 +15,10 @@ object InMemorySessionHandler extends SessionHandler {
 
   override def getUserIdForSession(sessionToken: String): Long = {
     LOG.debug("gettingUserFor Session " + sessionToken)
-    val sessions = InMemorySessionHandler.cache.get(sessionToken)
-    if (sessions.isEmpty) 0 else sessions.head._1
+    InMemorySessionHandler.cache.get(sessionToken) match {
+      case Some(obj) => obj._1
+      case None => 0
+    }
   }
 
   override def createSessionTokenForUser(userId: Long): String = {

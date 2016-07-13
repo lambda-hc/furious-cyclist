@@ -64,6 +64,14 @@ object UserController {
     (user, messages.toArray)
   }
 
+  def authenticateUser(email: String, password: String): (Option[User], Array[String]) = {
+    val user = User.authenticateAndGetUser(email, password)
+    if (user != null)
+      (Some(user), Array())
+    else
+      (None, Array("Invalid Credentials"))
+  }
+
   def authenticateUser(requestJson: JsObject): (User, Array[String]) = {
     var user: User = null
 
