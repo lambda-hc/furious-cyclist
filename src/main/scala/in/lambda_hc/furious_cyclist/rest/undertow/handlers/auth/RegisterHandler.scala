@@ -2,7 +2,9 @@ package in.lambda_hc.furious_cyclist.rest.undertow.handlers.auth
 
 import com.google.inject.Inject
 import in.lambda_hc.furious_cyclist.rest.controllers.UserController
+import in.lambda_hc.furious_cyclist.ServerBootstrap.sessionHandler
 import in.lambda_hc.furious_cyclist.rest.controllers.session.SessionHandler
+import in.lambda_hc.furious_cyclist.utils.UNDERTOW_HELPERS
 import io.undertow.server.{HttpHandler, HttpServerExchange}
 import org.apache.commons.io.IOUtils
 import spray.json.JsonParser.ParsingException
@@ -11,11 +13,18 @@ import spray.json.{JsArray, JsObject, JsString, _}
 /**
   * Created by vishnu on 11/6/16.
   */
+//TODO make userController Singleton Remove DI
 class RegisterHandler @Inject()(
                                  sessionHandler: SessionHandler
                                ) extends HttpHandler {
 
   override def handleRequest(exchange: HttpServerExchange): Unit = {
+    exchange.getResponseHeaders
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_HEADERS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_HEADERS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_CREDENTIALS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_CREDENTIALS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_METHODS._1, UNDERTOW_HELPERS.ACCESS_CONTROL_ALLOW_METHODS._2)
+      .add(UNDERTOW_HELPERS.ACCESS_CONTROL_MAX_AGE._1, UNDERTOW_HELPERS.ACCESS_CONTROL_MAX_AGE._2)
+
     val cookie = exchange.getRequestCookies.get("ssid")
 
     val user = if (cookie != null)
@@ -53,7 +62,7 @@ class RegisterHandler @Inject()(
         } catch {
           case e: ParsingException => {
             e.printStackTrace()
-            exchange.setStatusCode(400)
+            exchange.setStatusCode(200)
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("failed"),
               "message" -> JsString("Invalid Json Parsing Exception")
@@ -61,7 +70,7 @@ class RegisterHandler @Inject()(
           }
           case e: Exception => {
             e.printStackTrace()
-            exchange.setStatusCode(400)
+            exchange.setStatusCode(200)
             exchange.getResponseSender.send(JsObject(
               "status" -> JsString("failed"),
               "message" -> JsString("Registration Failed")

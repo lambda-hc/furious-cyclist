@@ -1,8 +1,6 @@
 package in.lambda_hc.furious_cyclist.models
 
 import java.sql.ResultSet
-
-import in.lambda_hc.furious_cyclist.ServerBootstrap
 import in.lambda_hc.furious_cyclist.connectors.MysqlClient
 import in.lambda_hc.furious_cyclist.utils.SecurityUtils
 import org.slf4j.LoggerFactory

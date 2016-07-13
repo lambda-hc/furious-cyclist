@@ -30,7 +30,8 @@ object MysqlClient {
 
 
   val autoIncValuesForTable: Map[String, Array[String]] = Map(
-    "users" -> Array("userId")
+    "users" -> Array("userId"),
+    "entries" -> Array("entryId")
   )
 
   private val dbc = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + password

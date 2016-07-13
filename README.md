@@ -1,6 +1,15 @@
-# furious-cyclist
+
+
+
+furiouscyclists.in
 
 A Web-App for cyclists to report Bullying drivers and what not!!
+
+The application is still in development
+
+> Api - is Built and Ready
+
+> Web-Ui - Far from Being Completed [Help Wanted]
 
 Just starting of with this project to discuss more please join on chat.
 

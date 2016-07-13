@@ -6,6 +6,9 @@ import spray.json.{JsNumber, JsObject}
 
 /**
   * Created by vishnu on 12/6/16.
+  *
+  * InMemory SessionHandler for Development testing not to be used in Production
+  *
   */
 object InMemorySessionHandler extends SessionHandler {
   // String Token Key (userId, Expiration Time)

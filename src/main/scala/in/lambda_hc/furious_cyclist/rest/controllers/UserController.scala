@@ -12,6 +12,9 @@ import scala.collection.mutable.ArrayBuffer
 
 /**
   * Created by vishnu on 10/6/16.
+  *
+  * UserController for Doing basic operation on top of User Data
+  *
   */
 object UserController {
   val LOG = LoggerFactory.getLogger(this.getClass)

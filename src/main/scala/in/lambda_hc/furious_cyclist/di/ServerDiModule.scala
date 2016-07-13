@@ -13,10 +13,11 @@ import net.codingwell.scalaguice.ScalaModule
   */
 class ServerDiModule(config: Config) extends AbstractModule with ScalaModule {
   override def configure(): Unit = {
-    bind[Config].toInstance(config)
 
+    bind[Config].toInstance(config)
     bind[ServerInterface].to[SprayApiServer].asInstanceOf[Singleton]
 
     bind[SessionHandler].toInstance(InMemorySessionHandler)
+
   }
 }

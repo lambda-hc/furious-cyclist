@@ -1,0 +1,44 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">FuriousCyclists</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/home">Dashboard</a></li>
+        <!-- <li><a href="/registerEntry">Complain</a></li> -->
+        <li><a href="/viewDB">View DataBase</a></li>
+        <li><a href="/login">Login</a></li>
+        <!-- <li><a href="/logout?rd=/">Logout</a></li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <h3>User Registeration</h3>
+  <form>
+    <div class="form-group">
+      <label for="Name">Name</label>
+      {{input type="text" value=name disabled=entryNotAllowed size="50"}}
+    </div>
+    <div class="form-group">
+      <label for="Username">User Name</label>
+      <input type="Username" class="form-control" id="Username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input type="email" class="form-control" id="email" placeholder="Email">
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input type="city" class="form-control" id="city" placeholder="City">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    </div>
+
+    <button type="submit" class="btn btn-default" {{action "registerUser"}}>Regiter User</button>
+  </form>
+  Your name is {{name}}
+</div>

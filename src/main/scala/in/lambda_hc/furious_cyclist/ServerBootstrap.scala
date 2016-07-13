@@ -4,9 +4,12 @@ package in.lambda_hc.furious_cyclist
 import akka.actor.ActorSystem
 import com.google.inject.Guice
 import com.typesafe.config.Config
+
 import in.lambda_hc.furious_cyclist.di.ServerDiModule
 import in.lambda_hc.furious_cyclist.rest.ServerInterface
-import in.lambda_hc.furious_cyclist.rest.controllers.session.SessionHandler
+
+import in.lambda_hc.furious_cyclist.rest.controllers.session.{InMemorySessionHandler, SessionHandler}
+
 import in.lambda_hc.furious_cyclist.utils.InitializationUtils
 
 object ServerBootstrap {
@@ -18,9 +21,9 @@ object ServerBootstrap {
 
   val actorSystem: ActorSystem = ActorSystem("Api-server")
 
-  val sessionHandler = injector.getInstance(classOf[SessionHandler])
-
   val serverInterface = injector.getInstance(classOf[ServerInterface])
+
+  val sessionHandler: SessionHandler = InMemorySessionHandler
 
   def main(args: Array[String]): Unit = {
 

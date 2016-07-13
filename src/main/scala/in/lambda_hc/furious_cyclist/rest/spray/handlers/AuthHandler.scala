@@ -17,7 +17,7 @@ trait AuthHandler extends ServerUtils {
 
 
   def loginPageHandler = getUser {
-    case Some(user) => redirect("/home", StatusCodes.TemporaryRedirect)
+    case Some(user) => TO_DASHBOARD_PAGE
     case None => get {
       complete {
         html.Login.render(Array())

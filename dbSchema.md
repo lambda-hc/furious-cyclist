@@ -20,3 +20,16 @@ CREATE TABLE users
      join_date          TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
      PRIMARY KEY (userId)
   );
+
+
+CREATE TABLE entries
+      (
+         entryId         BIGINT NOT NULL auto_increment,
+         userId             BIGINT NOT NULL,
+         vehicleNumber      VARCHAR(128),
+         description        VARCHAR(500),
+         location           VARCHAR(255),
+         city               VARCHAR(255),
+         registeredDate     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+         PRIMARY KEY (entryId)
+      );
