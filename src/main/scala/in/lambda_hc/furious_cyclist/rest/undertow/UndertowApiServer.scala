@@ -1,10 +1,11 @@
-package in.lambda_hc.furious_cyclist.rest
+package in.lambda_hc.furious_cyclist.rest.undertow
 
 import com.google.inject.Inject
 import com.typesafe.config.Config
-import in.lambda_hc.furious_cyclist.rest.routes.ServerRoutes
+import in.lambda_hc.furious_cyclist.rest.ServerInterface
+import in.lambda_hc.furious_cyclist.rest.undertow.routes.ServerRoutes
 import io.undertow.Undertow
-import org.slf4j.{LoggerFactory, Logger}
+import org.slf4j.{Logger, LoggerFactory}
 
 /**
   * Created by vishnu on 9/6/16.

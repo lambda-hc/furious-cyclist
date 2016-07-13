@@ -39,7 +39,7 @@ class RegisterComplaintHandler extends HttpHandler {
         val city = if (requestJson.getFields("city").nonEmpty) requestJson.getFields("city").head.asInstanceOf[JsString].value else ""
 
         var entry = new EntryModel(
-          userId = user.userId,
+          userId = user.get.userId,
           vehicleNumber = vehicleNumber,
           description = description,
           location = location,

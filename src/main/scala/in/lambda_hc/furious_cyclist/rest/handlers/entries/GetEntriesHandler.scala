@@ -1,9 +1,9 @@
 package in.lambda_hc.furious_cyclist.rest.handlers.entries
 
+import in.lambda_hc.furious_cyclist.connectors.MysqlClient
 import in.lambda_hc.furious_cyclist.models.EntryModel
 import in.lambda_hc.furious_cyclist.utils.UNDERTOW_HELPERS
 import io.undertow.server.{HttpServerExchange, HttpHandler}
-import in.lambda_hc.furious_cyclist.ServerBootstrap.mysqlClient
 import spray.json.{JsArray, JsString, JsObject}
 import collection.JavaConversions._
 
@@ -41,7 +41,7 @@ class GetEntriesHandler extends HttpHandler {
       }
     ).filter(_ != null).mkString(" AND ")
 
-    val rs = mysqlClient.getResultSet("select * from entries " + (if (whereQuery.nonEmpty) "where " + whereQuery else ""))
+    val rs = MysqlClient.getResultSet("select * from entries " + (if (whereQuery.nonEmpty) "where " + whereQuery else ""))
 
     val buf = scala.collection.mutable.ListBuffer.empty[JsObject]
 

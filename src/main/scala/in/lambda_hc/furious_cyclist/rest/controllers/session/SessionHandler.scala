@@ -13,12 +13,23 @@ trait SessionHandler {
 
   def getUserIdForSession(sessionToken: String): Long
 
-  def getUserForSession(sessionToken: String): User = {
+  def getUserForSession(sessionToken: String): Option[User] = {
     val userID = getUserIdForSession(sessionToken)
     if (userID != 0)
-      User.getUser(userID)
-    else
-      null
+      User.getUser(userID) match {
+        case null => {
+          println("unable to get user for session " + userID)
+          None
+        }
+        case user: User => {
+          println("Got user for session " + user.email)
+          Some(user)
+        }
+      }
+    else{
+      println("0 returned while getting userID")
+      None
+    }
   }
 
   def createSessionTokenForUser(userId: Long): String

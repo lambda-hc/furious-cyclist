@@ -1,6 +1,6 @@
 package in.lambda_hc.furious_cyclist.rest.controllers
 
-import com.google.inject.Inject
+
 import in.lambda_hc.furious_cyclist.connectors.MysqlClient
 import in.lambda_hc.furious_cyclist.models.User
 import in.lambda_hc.furious_cyclist.utils.SecurityUtils
@@ -16,7 +16,7 @@ import scala.collection.mutable.ArrayBuffer
   * UserController for Doing basic operation on top of User Data
   *
   */
-class UserController @Inject()(mysqlClient: MysqlClient) {
+object UserController {
   val LOG = LoggerFactory.getLogger(this.getClass)
 
   def registerUser(requestJson: JsObject): (User, Array[String]) = {
@@ -33,10 +33,10 @@ class UserController @Inject()(mysqlClient: MysqlClient) {
       val email = requestJson.getFields("email").head.asInstanceOf[JsString].value
       val city = requestJson.getFields("city").head.asInstanceOf[JsString].value
 
-      val sanityCheck = mysqlClient.getResultSet("SELECT userName,email from users where username='" + userName + "' || email='" + email + "'")
+      val sanityCheck = MysqlClient.getResultSet("SELECT userName,email from users where username='" + userName + "' || email='" + email + "'")
       if (!sanityCheck.next()) {
         val passwordHash = SecurityUtils.hash(password)
-        val userId = mysqlClient.insert(
+        val userId = MysqlClient.insert(
           tableName = "users",
           elements = Map(
             "username" -> userName,
@@ -65,6 +65,14 @@ class UserController @Inject()(mysqlClient: MysqlClient) {
       }
     }
     (user, messages.toArray)
+  }
+
+  def authenticateUser(email: String, password: String): (Option[User], Array[String]) = {
+    val user = User.authenticateAndGetUser(email, password)
+    if (user != null)
+      (Some(user), Array())
+    else
+      (None, Array("Invalid Credentials"))
   }
 
   def authenticateUser(requestJson: JsObject): (User, Array[String]) = {

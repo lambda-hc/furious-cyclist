@@ -1,0 +1,19 @@
+@(errors:Array[String])
+@MainTemplate(menu = "Login",user = null) {
+<h1>Login Page</h1>
+
+@if(errors.nonEmpty){
+<ul>
+    @for(error <- errors) {
+    <li>@error</li>
+    }
+</ul>
+}
+
+
+<form action="/login" method="post">
+    <input type="text" name="username" placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" name="submit" value="Login">
+</form>
+}

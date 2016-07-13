@@ -5,6 +5,7 @@ import java.sql.{PreparedStatement, ResultSet, DriverManager, Connection}
 
 import com.google.inject.Inject
 import com.typesafe.config.Config
+import in.lambda_hc.furious_cyclist.ServerBootstrap
 import org.slf4j.{LoggerFactory, Logger}
 import spray.json.{JsArray, JsObject}
 
@@ -13,8 +14,13 @@ import scala.collection.mutable.ArrayBuffer
 /**
   * Created by vishnu on 10/6/16.
   */
-class MysqlClient @Inject()(config: Config) {
-  private val LOG: Logger = LoggerFactory.getLogger(classOf[MysqlClient])
+
+
+object MysqlClient {
+
+  val config = ServerBootstrap.config
+
+  private val LOG: Logger = LoggerFactory.getLogger(this.getClass)
 
   val host = config.getString("server.mysql.host")
   val port = config.getString("server.mysql.port")

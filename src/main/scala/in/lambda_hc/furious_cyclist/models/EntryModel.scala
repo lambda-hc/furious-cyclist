@@ -1,7 +1,8 @@
 package in.lambda_hc.furious_cyclist.models
 
 import java.sql.{Date, ResultSet}
-import in.lambda_hc.furious_cyclist.ServerBootstrap.mysqlClient
+
+import in.lambda_hc.furious_cyclist.connectors.MysqlClient
 import spray.json.{JsNumber, JsString, JsObject}
 
 /**
@@ -33,7 +34,7 @@ class EntryModel(
 object EntryModel {
 
   def get(entryId: Long): EntryModel = {
-    val rs = mysqlClient.getResultSet("select * from entries where entryId=" + entryId)
+    val rs = MysqlClient.getResultSet("select * from entries where entryId=" + entryId)
     val response = if (rs.next())
       getFromResultSet(rs)
     else null
@@ -56,7 +57,7 @@ object EntryModel {
 
   def saveToDb(entryObj: EntryModel) = {
     if (entryObj.entryId == 0) {
-      val complaintId = mysqlClient.insert(
+      val complaintId = MysqlClient.insert(
         tableName = "entries",
         elements = Map(
           "userId" -> entryObj.userId,
@@ -69,7 +70,7 @@ object EntryModel {
       get(complaintId)
     }
     else {
-      mysqlClient.update(
+      MysqlClient.update(
         tableName = "entries",
         elements = Map(
           "userId" -> entryObj.userId,
