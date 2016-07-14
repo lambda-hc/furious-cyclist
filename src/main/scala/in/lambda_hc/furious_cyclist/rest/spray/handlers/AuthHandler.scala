@@ -1,6 +1,5 @@
 package in.lambda_hc.furious_cyclist.rest.spray.handlers
 
-import in.lambda_hc.furious_cyclist.ServerBootstrap
 import in.lambda_hc.furious_cyclist.rest.controllers.UserController
 import in.lambda_hc.furious_cyclist.rest.spray.utils.ServerUtils
 import spray.http.{HttpCookie, StatusCodes, FormData}
@@ -32,12 +31,7 @@ trait AuthHandler extends ServerUtils {
               case Some(password) => {
                 val (userObj, message) = UserController.authenticateUser(userName, password)
                 userObj match {
-                  case Some(user) => setCookie(
-                    HttpCookie(
-                      "ssid",
-                      content = ServerBootstrap.sessionHandler.createSessionTokenForUser(user.userId)
-                    )
-                  ) {
+                  case Some(user) => authorizeUser(user) {
                     TO_DASHBOARD_PAGE
                   }
                   case None => complete {
