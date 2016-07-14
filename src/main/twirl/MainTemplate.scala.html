@@ -4,41 +4,59 @@
 <head>
     <meta charset="utf-8">
     <title>@menu</title>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="assets/css/bootstrap-theme.min.css"/>
+    <link type="text/css" rel="stylesheet" href="/assets/css/materialize.min.css"  media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/home">Furious Cyclists</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo">Furious Cyclists</a>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
 
-            <ul class="nav navbar-nav">
+        @user match {
+        case Some(u) => {
+        <ul id="UserDropdown" class="dropdown-content">
+            <li><a>@u.name</a></li>
+            <li class="divider"></li>
+            <li><a href="/logout">Logout</a></li>
 
-                <li @if(menu.equals("Home")){class="active"}><a href="/home">Home</a></li>
-                <li @if(menu.equals("View Records")){class="active"}><a href="/viewRecords">View Records</a></li>
-                <li @if(menu.equals("Register Complaint")){class="active"}><a href="/RegisterComplaint">Register Complaint</a></li>
-                @user match {
-                case Some(u) => {
-                <li><a>Logged in as @u.name</a></li>
-                <li><a>Logout</a></li>
-                    }
-                case None => {<li><a>Login</a></li>}
-                }
 
-            </ul>
-        </div>
-        <!--/.nav-collapse -->
+        </ul>
+        }
+        case None => {}
+        }
+
+
+        <ul class="right hide-on-med-and-down">
+            <li @if(menu.equals("Home")){class="active"}><a href="/home">Home</a></li>
+            <li @if(menu.equals("View Records")){class="active"}><a href="/viewRecords">View Records</a></li>
+            <li @if(menu.equals("Register Complaint")){class="active"}><a href="/RegisterComplaint">Register Complaint</a></li>
+            @user match {
+            case Some(u) => {
+            <li><a class="dropdown-button" href="#!" data-activates="UserDropdown">@u.name<i class="material-icons right">arrow_drop_down</i></a></li>
+            }
+            case None => {<li><a href="/login">Login</a></li>}
+            }
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+            <li @if(menu.equals("Home")){class="active"}><a href="/home">Home</a></li>
+            <li @if(menu.equals("View Records")){class="active"}><a href="/viewRecords">View Records</a></li>
+            <li @if(menu.equals("Register Complaint")){class="active"}><a href="/RegisterComplaint">Register Complaint</a></li>
+            @user match {
+            case Some(u) => {
+            <li><a>@u.name</a></li>
+            <li><a href="/logout">Logout</a></li>
+            }
+            case None => {
+            <li><a href="/login">Login</a></li>
+            }
+            }
+        </ul>
+
     </div>
 </nav>
+
 <br><br>
 <div class="container">
     @content
@@ -46,6 +64,14 @@
 
 
 </body>
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/jquery-2.1.1.min.js"></script>
+<script src="/assets/js/materialize.min.js"></script>
+
+<script type="text/javascript">
+$( document ).ready(function(){
+$(".button-collapse").sideNav();
+$(".dropdown-button").dropdown();
+})
+</script>
+
 </html>
