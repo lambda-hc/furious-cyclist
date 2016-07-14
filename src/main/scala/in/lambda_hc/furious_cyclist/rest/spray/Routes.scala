@@ -1,10 +1,8 @@
 package in.lambda_hc.furious_cyclist.rest.spray
 
-import in.lambda_hc.furious_cyclist.models.User
 import in.lambda_hc.furious_cyclist.rest.spray.handlers.AuthHandler
-import in.lambda_hc.furious_cyclist.rest.spray.utils.{ServerUtils}
-import spray.json.{JsArray, JsString, JsObject}
-import spray.routing.HttpService
+import in.lambda_hc.furious_cyclist.rest.spray.utils.ServerUtils
+
 import spray.httpx.PlayTwirlSupport._
 
 /**
@@ -12,30 +10,37 @@ import spray.httpx.PlayTwirlSupport._
   */
 trait Routes extends ServerUtils with AuthHandler {
 
-  def rootRoute = pathPrefix("api") {
-    apiRoutes
-  } ~ path("login") {
-    loginPageHandler
-  } ~ path("logout") {
+  def rootRoute =
+    path("login") {
+      loginPageHandler
+
+    } ~ path("logout") {
     logoutHandler
+
   } ~ path("home") {
-    complete {
-      html.index.render("Home", User.getUser(1))
+    getUser { user =>
+      complete {
+        html.index.render("Home", user)
+      }
     }
+
   } ~ path("viewRecords") {
-    complete {
+      getUser { user =>
+        complete {
+          html.index.render("View Records", user)
+        }
+      }
 
-      html.index.render("View Records", null)
-    }
   } ~ path("RegisterComplaint") {
-    complete {
-      html.index.render("Register Complaint", null)
-    }
+      getUser { user =>
+        complete {
+          html.index.render("Register Complaint", user)
+        }
+      }
   } ~ pathPrefix("assets") {
-
     getFromDirectory("assets")
 
-  } ~ complete("Api Server")
+  } ~ complete("Invalid Route 404")
 
   def apiRoutes = complete("default Api Route")
 }
