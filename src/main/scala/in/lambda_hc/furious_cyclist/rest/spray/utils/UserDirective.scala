@@ -2,6 +2,7 @@ package in.lambda_hc.furious_cyclist.rest.spray.utils
 
 import in.lambda_hc.furious_cyclist.ServerBootstrap
 import in.lambda_hc.furious_cyclist.models.User
+import spray.http.HttpCookie
 import spray.routing.Directives.{extract, pass}
 import spray.routing.Directives._
 import spray.routing.{Directive0, Directive1}
@@ -30,6 +31,13 @@ trait UserDirective {
 
   def deAuthorizeUser: Directive0 = {
     deleteCookie("ssid")
+  }
+
+  def authorizeUser(user: User): Directive0 = {
+    setCookie(
+      HttpCookie("ssid", content = ServerBootstrap.sessionHandler.createSessionTokenForUser(user.userId)
+      )
+    )
   }
 
 }
